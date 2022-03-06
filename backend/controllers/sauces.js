@@ -8,17 +8,19 @@ const fs = require('fs');
 exports.createSauce = (req, res, next) => {
   // récupérer les champs dans le corps de la requête
   const sauceObject = JSON.parse(req.body.sauce);
-  //delete sauceObject._id;
+  delete sauceObject._id;
   // nouvelle instance de Sauce
   const sauce = new Sauce({
     ...sauceObject,
     // résolution de l'URL de l'image
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
+  console.log('---> TEST OBJET SAUCE');
+  console.log(sauce);
   // enregistrer l'objet dans la BDD avec une promesse
   sauce.save()
   .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
-  .catch(error => res.status(400).json({ error }));
+  .catch(error => res.status(400).json({ message: error }));
 };
 // MODIFICATION D'UNE SAUCE - PUT + méthode upDateOne
 exports.modifySauce =  (req, res, next) => {
