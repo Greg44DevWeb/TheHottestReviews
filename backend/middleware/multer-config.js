@@ -1,19 +1,33 @@
+// import de multer
 const multer = require('multer');
-// dictionner des types d'extensions pour les fichiers images
+
+// dictionnaire d'extensions à traduire
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/png': 'png',
 };
+
+/* objet de configuration(qui comprend 
+2 éléments : destination, et filename) de multer 
+que l'on passe à la méthode diskStorage */
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images')
     },
     filename: (req, file, callback) => {
-        const name = file.originalnamesplit('').join('_'); // Elimine les espaces génant dans le nom pour la gestion dans le backend
+
+        // génère nom du fichier, élimine les espaces avec split et join
+        const name = file.originalname.split(' ').join('_');
+
+        // accès mimetype (ex: image/png) appelé par notre dictionnaire
         const extension = MIME_TYPES[file.mimetype];
-        callback(null, name + Date.now() + '.' + extension); // générer un nom de fichier suffisament unique
-    }
+
+        //  génère un nom, ajout d'un time-stamp et extension
+        callback(null, name + Date.now() + '.' + extension);
+    }      
 });
 
-module.exports = multer({storage}).single('image');
+/* export du middleware multer configuré en passant l'objet storage, 
+avec single pour un fichier image unique */
+module.exports = multer({storage: storage}).single('image');

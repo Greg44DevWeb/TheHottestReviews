@@ -18,14 +18,14 @@ exports.signup = (req, res, next) => {
 };
 
 // Middleware avec fonction de connexion Utilisateur existant
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
     User.findOne({email: req.body.email})
         .then( user => {
         if(!user) {
             return res.status(401).json({error: 'Utilisateur non trouvé'})
         }
         bcrypt.compare(req.body.password, user.password) // comparaison du Mdp Bcrypt/User
-            .then(valid => {
+            .then((valid) => {
                 if (!valid) {
                     return res.status(401).json({error: 'Mot de passe incorrect'})   
                 }

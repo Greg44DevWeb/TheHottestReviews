@@ -5,6 +5,8 @@ const app = express();
 //importation du router
 const sauceRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/users');
+//installation du package dotenv (variables d'environnement)
+require('dotenv').config();
 
 const path = require('path');
 // importation package mongoose
@@ -12,10 +14,7 @@ const mongoose = require('mongoose');
 
 
 
-app.use(express.json()); //extrait le corps JSON du frontend
-
-
-mongoose.connect('mongodb+srv://gregDevWeb44:Cadran370832@cluster0.jdwzn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -30,8 +29,10 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use(express.json());//extrait le corps JSON du frontend
 
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
