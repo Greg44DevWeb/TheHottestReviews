@@ -18,7 +18,7 @@ const path = require('path');
 // importation package mongoose
 const mongoose = require('mongoose');
 
-
+const cors = require('cors');
 
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
@@ -29,7 +29,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS
 // Methode Express
 const app = express();
 app.use(helmet());
-//app.use(corsNpm());
+app.use(cors());
 
 
 // gestion des parametres CORS - requète AJAX interdites
@@ -37,8 +37,9 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     next();
-  });
+});
 
 app.use(express.json());//extrait le corps JSON du frontend
 

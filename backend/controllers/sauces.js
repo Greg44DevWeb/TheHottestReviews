@@ -54,10 +54,10 @@ exports.deleteSauce = (req, res, next) => {
       fs.unlink(`images/${filename}`, () => {
         Sauce.deleteOne({ _id: req.params.id })
           .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
-          .catch(error => res.status(400).json({ error }));
+          .catch((error) => res.status(400).json({ error }));
       });
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 }; 
 // récupérer une seule sauce avec méthode findOne
 exports.getOneSauce = (req, res, next) => {
