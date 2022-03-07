@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt'); // Package de cryptage
 const jwt = require('jsonwebtoken'); // Création, vérification de Tokens
 const User = require('../models/User'); // import modèle User
-
+require('dotenv').config(); // Import de dotenv
 // Middleware avec fonction de connexion nouvel utilisateur
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10) // 10 tours d'algorythme
@@ -33,7 +33,7 @@ exports.login = (req, res) => {
                     userId: user._id, 
                     token: jwt.sign(
                         {userId: user._id},
-                        'RANDOM_TOKEN_SECRET',
+                        process.env.RANDOM_TOKEN_SECRET,
                         {expiresIn: '12h'}
                     )
                 });
