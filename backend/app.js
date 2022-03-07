@@ -1,23 +1,21 @@
 const express = require('express');
 
-
-
 //importation du router
 const sauceRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/users');
+
 //installation du package dotenv (variables d'environnement)
 require('dotenv').config();
 
 // initialisation de Helmet pour sécuriser les headers uttilisés par Express
 const helmet = require('helmet');
 
-// importation de npm-Cors
-//const corsNpm = require('cors');
+
 // Importation du path (accés au path du server)
 const path = require('path');
 // importation package mongoose
 const mongoose = require('mongoose');
-
+// Importation de Cors
 const cors = require('cors');
 
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
@@ -29,7 +27,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS
 // Methode Express
 const app = express();
 app.use(helmet());
-app.use(cors());  
+app.use(cors());
 
 
 // gestion des parametres CORS - requète AJAX interdites
