@@ -10,7 +10,6 @@ require('dotenv').config();
 // initialisation de Helmet pour sécuriser les headers uttilisés par Express
 const helmet = require('helmet');
 
-
 // Importation du path (accés au path du server)
 const path = require('path');
 // importation package mongoose
@@ -18,17 +17,27 @@ const mongoose = require('mongoose');
 // Importation de Cors
 const cors = require('cors');
 
+const rateLimit = require('express-rate-limit');
+
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+  
+// Express limiteur (limite le nombres de requetes par IP)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 100, // limite chaque IP à 100 requêtes par window de 15min
+  standardHeaders: true, // retourne l'info de limite dans les headers
+  legacyHeaders: false // désactive le 'X-rateLimit-*' headers
+});
 
 // Methode Express
 const app = express();
 app.use(helmet());
 app.use(cors());
-
+app.use(limiter);
 
 // gestion des parametres CORS - requète AJAX interdites
 app.use((req, res, next) => {
