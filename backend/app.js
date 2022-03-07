@@ -12,7 +12,7 @@ require('dotenv').config();
 const helmet = require('helmet');
 
 // importation de npm-Cors
-const cors = require('cors');
+//const corsNpm = require('cors');
 // Importation du path (accés au path du server)
 const path = require('path');
 // importation package mongoose
@@ -29,7 +29,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS
 // Methode Express
 const app = express();
 app.use(helmet());
-app.use(cors());
+//app.use(corsNpm());
 
 
 // gestion des parametres CORS - requète AJAX interdites
