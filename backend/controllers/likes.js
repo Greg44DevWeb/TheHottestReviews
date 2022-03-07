@@ -9,7 +9,7 @@ exports.likeSauce = (req, res, next) => {
     // récupère le champs likes
     const likeStatus = req.body.like;
     // récupère l'id de l'URL
-    const sauceId = req.params.id;
+    const sauceId = req.params.id;  
     // récupère le userId
     const userId = req.body.userId;
 

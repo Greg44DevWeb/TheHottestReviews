@@ -37,7 +37,7 @@ exports.modifySauce =  (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
   // trouver la sauce 
   Sauce.findOne({ _id: req.params.id })
-    .then((sauce) => {
+    .then((sauce) => {  
       if (!sauce) {
         res.status(404).json({ error: new Error("Cette sauce n'existe pas !")});
       }

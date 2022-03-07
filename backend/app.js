@@ -29,7 +29,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS
 // Methode Express
 const app = express();
 app.use(helmet());
-app.use(cors());
+app.use(cors());  
 
 
 // gestion des parametres CORS - requète AJAX interdites
