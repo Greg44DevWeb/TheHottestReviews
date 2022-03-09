@@ -35,14 +35,3 @@
 * DB_NAME 
 * RANDOM_TOKEN_SECRET
 
-
-
-
-
-
-
-
-
-
-
-

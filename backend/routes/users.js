@@ -1,10 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/users');
+
+// Appel des fonctions signup et login dans la constante
+const {signup, login} = require('../controllers/users');
+
+// Controle dForce du mot de passe (npm password-validator )
 const password = require('../middleware/password');
 
+// Contrôle validité format d'email (npm validator)
+const controlEmail = require('../middleware/controlEmail');
 
-router.post('/signup', password, userController.signup);
-router.post('/login', userController.login);
+router.post('/signup', password, controlEmail, signup);
+router.post('/login', login);
 
 module.exports = router;
